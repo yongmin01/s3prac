@@ -12,12 +12,11 @@ jobs:
       - name: 코드 체크아웃
         uses: actions/checkout@v3
       
+      - name: 의존성 추가
+        run: npm ci
+        
       - name: 리액트 빌드
-        run: 
-          npm install
-          npm run build
-          ls -al
-          ls -al build
+        run: npm run build
 
 
       - name: AWS IAM 사용자 설정
@@ -28,6 +27,6 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
       
       - name: S3에 업로드
-        run : aws s3 sync build/ s3://${{ secrets.AWS_S3_BUCKET }} --acl public-read
+        run : aws s3 sync build s3://${{ secrets.AWS_S3_BUCKET }} --acl public-read
 
       
